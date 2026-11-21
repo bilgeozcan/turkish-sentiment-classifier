@@ -1,6 +1,10 @@
 import pandas as pd
 
-from src.sentiment.evaluation import cross_validate, find_misclassified, save_confusion_matrix
+from src.sentiment.evaluation import (
+    cross_validate,
+    find_misclassified,
+    save_confusion_matrix,
+)
 from src.sentiment.model import build_pipeline
 
 
