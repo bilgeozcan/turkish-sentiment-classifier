@@ -1,3 +1,4 @@
+import pandas as pd
 import pytest
 
 from src.sentiment import model
@@ -36,3 +37,21 @@ def test_dataset_validation(tmp_path):
     bad.write_text("a,b\n1,2\n")
     with pytest.raises(ValueError):
         model.load_dataset(bad)
+
+
+def test_predict_empty_and_missing_text(trained):
+    pipe, _ = trained
+    assert model.predict(pipe, ["", "   !!!", None])[0]["confidence"] >= 0.0
+    with pytest.raises(ValueError):
+        model.predict(pipe, [])
+
+
+def test_train_requires_two_labels():
+    df = pd.DataFrame({"text": ["harika", "kötü"], "label": ["positive", "positive"]})
+    with pytest.raises(ValueError):
+        model.train(df)
+
+
+def test_load_missing_model(tmp_path):
+    with pytest.raises(FileNotFoundError):
+        model.load(tmp_path / "missing.joblib")

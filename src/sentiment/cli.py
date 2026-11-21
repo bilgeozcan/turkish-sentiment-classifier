@@ -24,7 +24,11 @@ def main() -> None:
         model.save(pipe, args.out)
         print(f"Saved model to {args.out}")
     else:
-        for r in model.predict(model.load(args.model), args.texts):
+        try:
+            pipe = model.load(args.model)
+        except FileNotFoundError:
+            ap.error(f"Model file not found: {args.model}")
+        for r in model.predict(pipe, args.texts):
             print(f"{r['label']:>9}  {r['confidence']:.2f}  {r['text']}")
 
 

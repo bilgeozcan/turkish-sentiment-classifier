@@ -8,12 +8,16 @@ _REPEAT = re.compile(r"(.)\1{2,}")
 _SPACES = re.compile(r"\s+")
 
 
-def turkish_lower(text: str) -> str:
+def turkish_lower(text: str | None) -> str:
     """Lowercase handling the Turkish dotted/dotless i correctly (I -> ı, İ -> i)."""
+    if text is None:
+        return ""
+    if not isinstance(text, str):
+        text = str(text)
     return text.replace("I", "ı").replace("İ", "i").lower()
 
 
-def normalize(text: str) -> str:
+def normalize(text: object | None) -> str:
     """Lowercase, strip URLs/mentions/digits/punctuation and squeeze letter repetitions.
 
     'ÇOOOK güzel!!! http://x.co @ali' -> 'çook güzel'
