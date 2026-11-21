@@ -6,7 +6,24 @@ from src.sentiment import model
 
 @pytest.fixture(scope="module")
 def trained():
-    df = model.load_dataset("data/sample.csv")
+    df = pd.DataFrame({
+        "text": [
+            "harika",
+            "çok güzel",
+            "mükemmel",
+            "berbat",
+            "çok kötü",
+            "kötü",
+        ],
+        "label": [
+            "positive",
+            "positive",
+            "positive",
+            "negative",
+            "negative",
+            "negative",
+        ],
+    })
     pipe, report = model.train(df)
     return pipe, report
 
