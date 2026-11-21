@@ -11,3 +11,12 @@ def test_normalize_removes_noise_and_squeezes_repeats():
 
 def test_normalize_empty():
     assert normalize("   ...  ") == ""
+
+
+def test_normalize_none_and_non_string():
+    assert normalize(None) == ""
+    assert normalize(12345) == ""
+
+
+def test_normalize_emoji_and_mixed_i():
+    assert normalize("İstanbul Isparta 👍") == "istanbul ısparta"
